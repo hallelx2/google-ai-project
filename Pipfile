@@ -4,11 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-langchain-core = "*"
 langchain = "*"
-streamlit = "*"
+pypdf2 = "*"
+python-dotenv = "*"
+streamlit = ">=1.28"
+st-gsheets-connection = "*"
+openai = "*"
+langchain-core = "*"
+tiktoken = "*"
+langchain-google-genai = "*"
+faiss-cpu = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+# python_version ~= "3.11"
