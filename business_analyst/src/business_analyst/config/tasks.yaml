@@ -1,0 +1,75 @@
+data_understanding_task:
+  description: >
+    Get an initial understanding of the data in {data_file}. 
+    This includes identifying data types, missing values, and potential outliers.
+
+  expected_output: >
+    A markdown document summarizing the data understanding process. 
+    - Data types of each feature.
+    - Percentage of missing values per feature.
+    - Description of any identified outliers.
+data_cleaning_task:
+  description: >
+    Clean the data in {data_file} by handling missing values and outliers based on the defined cleaning strategy {cleaning_strategy}.
+
+  inputs:
+    cleaning_strategy:
+      description: >
+        Specify the cleaning strategy for missing values and outliers. 
+        Options: 'remove', 'impute' (with imputation strategy), 'winsorize'
+
+  expected_output:
+    - Cleaned data as a pandas DataFrame.
+    - Log of actions taken during cleaning (missing values removed/imputed, outliers winsorized/removed).
+
+exploratory_analysis_task:
+  description: >
+    Perform exploratory data analysis on the cleaned data in {data_file}. 
+    This includes calculating summary statistics, creating visualizations, and identifying trends or patterns.
+
+  expected_output:
+    - A markdown document with key findings from the analysis:
+      - Summary statistics for numerical features (mean, median, standard deviation etc.)
+      - Frequency tables for categorical features.
+      - Visualizations like histograms, scatter plots, boxplots etc. (referencing visualizations created by separate agent)
+
+target_variable: {target_variable}  
+
+analysis_by_target_task:
+  description: >
+    Analyze the data in {data_file} for insights related to the target variable {target_variable}.
+  
+  inputs:
+    analysis_type:
+      description: >
+        Specify the type of analysis to perform.
+        Options: 'correlation', 'group comparison' (specify group variable)
+
+  expected_output:
+    - A markdown document with analysis results:
+      - Correlation matrix (if analysis_type is 'correlation')
+      - Comparison of target variable across groups (if analysis_type is 'group comparison')
+
+
+visualization_generation_task:
+  description: >
+    Generate a {visualization_type} visualization for {data_file} to explore the distribution of {target_feature}.
+
+  expected_output:
+    - A visualization image file (e.g. PNG) representing the requested visualization.
+
+
+reporting_task:
+  description: >
+    Compile the findings from previous tasks into a comprehensive data analysis report.
+
+  inputs:
+    data_understanding_report: {data_understanding_report_path}  # Path to markdown from data_understanding.yaml
+    data_cleaning_log: {data_cleaning_log_path}  # Path to log from data_cleaning.yaml
+    exploratory_analysis_report: {exploratory_analysis_report_path}  # Path to markdown from exploratory_analysis.yaml
+    analysis_by_target_report: {analysis_by_target_report_path}  # Path to markdown from analysis_by_target.yaml
+    visualization_files:  # List of visualization image file paths from visualization_generation.yaml
+      - {visualization_file_path1}
+  expected_output:
+    - A final markdown document combining all analysis sections and referencing visualizations.
+

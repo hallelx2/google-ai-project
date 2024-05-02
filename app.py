@@ -113,7 +113,7 @@ def main():
         else:
            print('Upload a file')
         context = st.text_input("Describe the dataset you are Submitting in few words")
-        api_key = st.text_input('Put in your gemini API Key')
+        api_key = st.text_input('Put in your gemini API Key', type='password')
 
 
     # User functionality
