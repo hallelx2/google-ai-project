@@ -1,15 +1,9 @@
-import os
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage
-
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.chains.question_answering import load_qa_chain
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI, GoogleGenerativeAI
-from langchain.vectorstores.faiss import FAISS
-
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents.agent_types import AgentType
-from langchain_experimental.agents.agent_toolkits import create_csv_agent, create_pandas_dataframe_agent
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 
 import streamlit as st
 import pandas as pd
@@ -55,7 +49,7 @@ def upload_and_validate(accepted_file_types=["csv", "xlsx", "xls"]):
 
 
 # how to get the response for the pdf file
-def get_response(df: pd.DataFrame, user_question: str) -> str:
+def get_response(df: pd.DataFrame, user_question: str, context: str) -> str:
     """
     This function generates a response to a user's question using a pre-trained large language model (LLM) and a pandas DataFrame.
 
@@ -77,10 +71,14 @@ def get_response(df: pd.DataFrame, user_question: str) -> str:
         # Create a pandas dataframe agent using the LLM and the provided DataFrame
         agent_executor = create_pandas_dataframe_agent(llm=llm,
                                                         df=df,
-                                                        agent_type='zero-shot-react-description')
+                                                        agent_type='zero-shot-react-description',
+                                                        max_iterations=50)
 
         # Invoke the agent with the user's question and return the response
-        response = agent_executor.run(user_question)
+        response = agent_executor.run(input ={
+                                            'question':f'{user_question}', 
+                                              'context':f'{context}'
+                                              })
         return response
 
     except Exception as e:
@@ -109,13 +107,14 @@ def main():
                 st.success("File uploaded (Excel)!")
         else:
            print('Upload a file')
+        context = st.text_input("Describe the dataset you are Submitting in few words")
 
 
     # User functionality
     user_query = st.chat_input('Ask your question')
 
     if user_query is not None and user_query!='':
-        response = get_response(df, user_query)
+        response = get_response(df, user_query, context=context)
         st.session_state.chat_history.append(HumanMessage(content= user_query))
         st.session_state.chat_history.append(AIMessage(content = response))
         
