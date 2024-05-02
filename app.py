@@ -49,7 +49,7 @@ def upload_and_validate(accepted_file_types=["csv", "xlsx", "xls"]):
 
 
 # how to get the response for the pdf file
-def get_response(df: pd.DataFrame, user_question: str, context: str) -> str:
+def get_response(df: pd.DataFrame, user_question: str, context= None) -> str:
     """
     This function generates a response to a user's question using a pre-trained large language model (LLM) and a pandas DataFrame.
 
@@ -66,7 +66,8 @@ def get_response(df: pd.DataFrame, user_question: str, context: str) -> str:
 
     try:
         # Use ChatGoogleGenerativeAI specifying the Gemini Pro model
-        llm = ChatGoogleGenerativeAI(model='gemini-pro')
+        llm = ChatGoogleGenerativeAI(model='gemini-pro', 
+                                     temperature= 0.3)
 
         # Create a pandas dataframe agent using the LLM and the provided DataFrame
         agent_executor = create_pandas_dataframe_agent(llm=llm,
@@ -77,7 +78,12 @@ def get_response(df: pd.DataFrame, user_question: str, context: str) -> str:
         # Invoke the agent with the user's question and return the response
         response = agent_executor.run(input ={
                                             'question':f'{user_question}', 
-                                              'context':f'{context}'
+                                              'context':f'{context}',
+                                              'rule for running':'This agent is configured mainly for business data.\
+                                                Check through the data and if it is not a business data, return that\
+                                                    this is not a business data. Only proceed with analysis if this is a \
+                                                        business data. If it is not a business data, ask the user to \
+                                                            provide a business data.'
                                               })
         return response
 
