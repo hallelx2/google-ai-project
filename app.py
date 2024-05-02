@@ -1,6 +1,5 @@
 import os
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage
 
@@ -11,7 +10,6 @@ from langchain.vectorstores.faiss import FAISS
 
 from langchain.agents.agent_types import AgentType
 from langchain_experimental.agents.agent_toolkits import create_csv_agent, create_pandas_dataframe_agent
-
 
 import streamlit as st
 import pandas as pd
@@ -90,25 +88,6 @@ def get_response(df: pd.DataFrame, user_question: str) -> str:
         print(f"Error generating response: {e}")
         raise  # Re-raise the exception for further handling
 
-
- 
-            
-# def googlesheetsreader():
-#     """ Google Sheets
-#     """
-#     # Create a connection object.
-#     conn = st.connection("gsheets", type=GSheetsConnection)
-
-#     df = conn.read(
-#         worksheet="Schedule",
-#         ttl="10m",
-#         usecols=[0, 1],
-#         nrows=3,
-#     )
-
-#     # Print results.
-#     for row in df.itertuples():
-#         st.write(f"{row} has a :{row}:")
 
 def main():
     load_dotenv()
