@@ -67,7 +67,6 @@ def get_response(df: pd.DataFrame, user_question: str,api_key, context= None) ->
     try:
         # Use ChatGoogleGenerativeAI specifying the Gemini Pro model
         llm = ChatGoogleGenerativeAI(model='gemini-pro', 
-                                     temperature= 0.3,
                                      google_api_key=api_key)
 
         # Create a pandas dataframe agent using the LLM and the provided DataFrame
