@@ -49,7 +49,7 @@ def upload_and_validate(accepted_file_types=["csv", "xlsx", "xls"]):
 
 
 # how to get the response for the pdf file
-def get_response(df: pd.DataFrame, user_question: str, context= None) -> str:
+def get_response(df: pd.DataFrame, user_question: str,api_key, context= None) -> str:
     """
     This function generates a response to a user's question using a pre-trained large language model (LLM) and a pandas DataFrame.
 
@@ -67,7 +67,8 @@ def get_response(df: pd.DataFrame, user_question: str, context= None) -> str:
     try:
         # Use ChatGoogleGenerativeAI specifying the Gemini Pro model
         llm = ChatGoogleGenerativeAI(model='gemini-pro', 
-                                     temperature= 0.3)
+                                     temperature= 0.3,
+                                     google_api_key=api_key)
 
         # Create a pandas dataframe agent using the LLM and the provided DataFrame
         agent_executor = create_pandas_dataframe_agent(llm=llm,
@@ -79,11 +80,9 @@ def get_response(df: pd.DataFrame, user_question: str, context= None) -> str:
         response = agent_executor.run(input ={
                                             'question':f'{user_question}', 
                                               'context':f'{context}',
-                                              'rule for running':'This agent is configured mainly for business data.\
-                                                Check through the data and if it is not a business data, return that\
-                                                    this is not a business data. Only proceed with analysis if this is a \
-                                                        business data. If it is not a business data, ask the user to \
-                                                            provide a business data.'
+                                              'Personality':'You are a business data analyst that analyses business data alone\
+                                                you check the data if it is a business data and perform analysis on the data as requested\
+                                                    for by the user.'
                                               })
         return response
 
@@ -114,13 +113,14 @@ def main():
         else:
            print('Upload a file')
         context = st.text_input("Describe the dataset you are Submitting in few words")
+        api_key = st.text_input('Put in your gemini API Key')
 
 
     # User functionality
     user_query = st.chat_input('Ask your question')
 
     if user_query is not None and user_query!='':
-        response = get_response(df, user_query, context=context)
+        response = get_response(df, user_query, api_key, context=context)
         st.session_state.chat_history.append(HumanMessage(content= user_query))
         st.session_state.chat_history.append(AIMessage(content = response))
         
