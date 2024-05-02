@@ -14,6 +14,14 @@ langchain-core = "*"
 tiktoken = "*"
 langchain-google-genai = "*"
 faiss-cpu = "*"
+langchain-experimental = "*"
+tabulate = "*"
+xlrd = "*"
+duckduckgo-search = "*"
+crewai = {extras = ["tools"], version = "*"}
+requests = "*"
+rich = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
