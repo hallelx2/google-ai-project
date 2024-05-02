@@ -73,6 +73,7 @@ def get_response(df: pd.DataFrame, user_question: str,api_key, context= None) ->
         agent_executor = create_pandas_dataframe_agent(llm=llm,
                                                         df=df,
                                                         agent_type='zero-shot-react-description',
+                                                        include_df_in_prompt=True,
                                                         max_iterations=50)
 
         # Invoke the agent with the user's question and return the response
