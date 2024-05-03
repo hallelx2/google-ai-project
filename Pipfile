@@ -25,6 +25,8 @@ scikit-learn = "*"
 shell = "*"
 quickfs = "*"
 matplotlib = "*"
+streamlit = "*"
+langchain-community = "*"
 
 [dev-packages]
 
