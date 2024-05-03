@@ -14,35 +14,63 @@ class BusinessAnalystCrew():
 	tasks_config = 'config/tasks.yaml'
 
 	@agent
-	def researcher(self) -> Agent:
+	def data_understanding_agent(self) -> Agent:
 		return Agent(
-			config=self.agents_config['researcher'],
-			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
+			config=self.agents_config['data_understanding_agent'],
 			verbose=True
 		)
 
 	@agent
-	def reporting_analyst(self) -> Agent:
+	def data_cleaning_agent(self) -> Agent:
 		return Agent(
-			config=self.agents_config['reporting_analyst'],
+			config=self.agents_config['data_cleaning_agent'],
 			verbose=True
 		)
-
+	
+	@agent
+	def exploratory_analysis_agent(self) -> Agent:
+		return Agent(
+			config=self.agents_config['exploratory_analysis_agent'],
+			verbose=True
+		)
+	
+	@agent
+	def data_analysis_agent(self) -> Agent:
+		return Agent(
+			config=self.agents_config['data_analysis_agent'],
+			verbose=True
+		)
+	
+	@agent
+	def visualization_agent(self) -> Agent:
+		return Agent(
+			config=self.agents_config['visualization_agent'],
+			verbose=True
+		)
+	
+	@agent
+	def reporting_agent(self) -> Agent:
+		return Agent(
+			config=self.agents_config['reporting_agent'],
+			verbose=True
+		)
+	
 	@task
-	def research_task(self) -> Task:
+	def data_understanding_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['research_task'],
-			agent=self.researcher()
+			config=self.tasks_config['data_understanding_task'],
+			agent=self.data_understanding_agent()
 		)
 
 	@task
-	def reporting_task(self) -> Task:
+	def data_cleaning_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['reporting_task'],
-			agent=self.reporting_analyst(),
+			config=self.tasks_config['data_cleaning_task'],
+			agent=self.data_cleaning_agent(),
 			output_file='report.md'
 		)
-
+	
+	# Create the crew that will run the task
 	@crew
 	def crew(self) -> Crew:
 		"""Creates the BusinessAnalyst crew"""

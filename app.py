@@ -94,8 +94,8 @@ def get_response(df: pd.DataFrame, user_question: str,api_key, context= None) ->
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title = 'Business Analyser')
-    st.header('Query your Businesses\'s data :chat')
+    st.set_page_config(page_title = 'Data Buddy')
+    st.header('Data Buddy :chat')
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [

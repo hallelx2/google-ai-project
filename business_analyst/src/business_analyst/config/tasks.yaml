@@ -8,6 +8,7 @@ data_understanding_task:
     - Data types of each feature.
     - Percentage of missing values per feature.
     - Description of any identified outliers.
+    
 data_cleaning_task:
   description: >
     Clean the data in {data_file} by handling missing values and outliers based on the defined cleaning strategy {cleaning_strategy}.

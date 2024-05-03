@@ -18,11 +18,13 @@ langchain-experimental = "*"
 tabulate = "*"
 xlrd = "*"
 duckduckgo-search = "*"
-crewai = {extras = ["tools"], version = "*"}
+crewai = {extras = ["tools"] }
 requests = "*"
 rich = "*"
 scikit-learn = "*"
 shell = "*"
+quickfs = "*"
+matplotlib = "*"
 
 [dev-packages]
 
